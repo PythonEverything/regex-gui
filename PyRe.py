@@ -4,6 +4,7 @@ from PyQt5 import QtWidgets
 class Window(QtWidgets.QWidget):
     def __init__(self):
         super().__init__()
+        # initialize widgets
         self.text1 = QtWidgets.QTextEdit()
         self.text2 = QtWidgets.QTextEdit()
         self.le = QtWidgets.QLineEdit()
@@ -11,7 +12,7 @@ class Window(QtWidgets.QWidget):
         self.lbl = QtWidgets.QLabel("Insert text here:")
         self.lbl2 = QtWidgets.QLabel("Text found:")
 
-
+        #put widgets in the window
         self.create_widgets()
 
     def create_widgets(self):
@@ -41,6 +42,7 @@ class Window(QtWidgets.QWidget):
         v_box.addWidget(self.le)
         v_box.addLayout(hb_box)
 
+        # add functionallity to the widgets
         self.btn.clicked.connect(self.reg)
 
 
@@ -49,20 +51,18 @@ class Window(QtWidgets.QWidget):
         self.show()
 
 
-    def search(self):
-
-        email = re.compile(r"\w+\@\w+\.\w+")
-        text = self.text1.toPlainText()
-        mo = email.findall(text)
-        self.text2.setText("\n".join(mo))
-
     def reg(self):
         tle = str(self.le.text())
         texto = self.text1.toPlainText()
         thing = re.compile(tle)
         mo = thing.findall(texto)
-        self.text2.setText("\n".join(mo))
+        if mo:
+            self.text2.setText("\n".join(mo))
+            self.lbl2.setText("Text found:")
+        else:
+            self.lbl2.setText("Nothing found!!")
 
+#create the menu
 class Regapp(QtWidgets.QMainWindow):
     def __init__(self):
         super().__init__()
@@ -127,6 +127,4 @@ class Regapp(QtWidgets.QMainWindow):
 app = QtWidgets.QApplication(sys.argv)
 w = Regapp()
 sys.exit(app.exec_())
-
-
 
